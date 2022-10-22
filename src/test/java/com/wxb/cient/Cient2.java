@@ -11,7 +11,7 @@ public class Cient2 {
     public static void main(String args[])
     {
         //获取rpc代理
-        RpcCientProxy rpcCientProxy = new RpcCientProxy();
+        RpcCientProxy rpcCientProxy = new RpcCientProxy("127.0.0.1",8999,15);
         Proto protoProxy = rpcCientProxy.getProxyService(Proto.class);
 
         //发送请求

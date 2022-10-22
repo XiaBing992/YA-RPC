@@ -2,6 +2,7 @@ package com.wxb.rpc.proxy;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationHandler;
@@ -15,11 +16,20 @@ import com.wxb.rpc.protocol.RpcReponseProtocol;
 import com.wxb.rpc.protocol.RpcRequestProtocol;
 import com.wxb.rpc.transfer.RpcCientTransfer;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 /**
  * @author: 王夏兵
  * @createDate: 2022.10.20
  */
+@Data
+@AllArgsConstructor
 public class RpcCientProxy implements InvocationHandler{
+    String ip;
+    int port;
+    int MAX_RETRANSMISSION_TIMES=15;
+
     /**
      * @description: 得到当前对象的代理服务
      * @param <T>: 需要代理的对象
@@ -69,11 +79,31 @@ public class RpcCientProxy implements InvocationHandler{
 
         /*---------------------------处理transfer层----------------------------- */
         System.out.println("transfer...");
-        //发送请求
-        RpcCientTransfer rpcCientTransfer = RpcCientTransfer.builder().ip("127.0.0.1").port(8999).build();
-        RpcReponseProtocol rpcReponseProtocol = rpcCientTransfer.sendData(rpcRequestProtocol);
+        //发送请求(at_least_once)
+        RpcCientTransfer rpcCientTransfer = RpcCientTransfer.builder().ip(this.ip).port(this.port).build();
+        RpcReponseProtocol rpcReponseProtocol=null;
 
+        //未收到server的ACK就再次重传保证at_least_once
+        for(int i=0;i<this.MAX_RETRANSMISSION_TIMES;i++)
+        {
+            try
+            {
+                rpcReponseProtocol = rpcCientTransfer.sendData(rpcRequestProtocol);
+                break;
+            }
+            catch(IOException e)
+            {
+                System.out.printf("未收到服务器ACK，尝试第%d重传数据...\n",i+1);
+                Thread.sleep(1000);
+            }
+        }
+        //仍然无法收到ACK
+        if(rpcReponseProtocol==null)
+        {
+            throw new IOException();
+        }
         
+
         /*---------------------------处理返回数据--------------------------------- */
         RpcProtocolHeader rpcProtocolHeader = rpcReponseProtocol.getHeader();
         byte[] rpcProtocolBoby=rpcReponseProtocol.getBodys();
