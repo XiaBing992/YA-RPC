@@ -13,6 +13,7 @@ import java.util.HashMap;
 import com.wxb.rpc.codec.RpcRequestCodec;
 import com.wxb.rpc.codec.RpcResponseCodec;
 import com.wxb.rpc.protocol.RpcProtocolHeader;
+import com.wxb.rpc.protocol.RpcProtocolStatus;
 import com.wxb.rpc.protocol.RpcReponseProtocol;
 import com.wxb.rpc.protocol.RpcRequestProtocol;
 
@@ -43,14 +44,16 @@ public class RpcThreadHandle implements Runnable{
             RpcRequestProtocol rpcRequestProtocol = (RpcRequestProtocol)socketInputStream.readObject();
             RpcProtocolHeader rpcProtocolHeader = rpcRequestProtocol.getHeader();
 
-            if(rpcProtocolHeader.getMessageId()==1)
+            //判断请求头
+            if(rpcProtocolHeader.getStatus()==RpcProtocolStatus.OK&&rpcProtocolHeader.getMagic()==1&&rpcProtocolHeader.getMessageType().equals("byte"))
             {
+                System.out.println("111");
                 //处理protocol层
                 byte[] rpcProtocolBoby = rpcRequestProtocol.getBodys();
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(rpcProtocolBoby);
-                ObjectInputStream objectInputStream2 = new ObjectInputStream(byteArrayInputStream);
+                ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
                 //反解析到codec层
-                RpcRequestCodec rpcRequestCodec = (RpcRequestCodec)objectInputStream2.readObject();
+                RpcRequestCodec rpcRequestCodec = (RpcRequestCodec)objectInputStream.readObject();
 
 
                 //调用任务

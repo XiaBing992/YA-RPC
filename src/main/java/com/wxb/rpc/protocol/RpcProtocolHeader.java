@@ -5,11 +5,20 @@ import java.io.Serializable;
 import lombok.Builder;
 import lombok.Data;
 
+
+/**
+ * @description: protocol层协议头
+ * @author: 王夏兵
+ * @createDate: 2022.10.20
+ */
+
+
 @Data
 @Builder
 public class RpcProtocolHeader implements Serializable{
-    private Integer version; //协议版本号
-    private Integer messageSize;//消息大小
-    private Integer messageId;//消息id
+    private Integer magic; //协议版本号
+    private RpcProtocolStatus status;//标识状态
+    private String messageType;//消息类型
+    private String messageEncoding;//消息编码
     
 }

@@ -20,7 +20,7 @@ public class Server {
 
         try
         {
-            rpcServerProxy.server(8999);
+            rpcServerProxy.server(55555);
         }
         catch(IOException e)
         {

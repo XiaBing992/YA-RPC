@@ -12,6 +12,7 @@ import java.lang.reflect.Proxy;
 import com.wxb.rpc.codec.RpcRequestCodec;
 import com.wxb.rpc.codec.RpcResponseCodec;
 import com.wxb.rpc.protocol.RpcProtocolHeader;
+import com.wxb.rpc.protocol.RpcProtocolStatus;
 import com.wxb.rpc.protocol.RpcReponseProtocol;
 import com.wxb.rpc.protocol.RpcRequestProtocol;
 import com.wxb.rpc.transfer.RpcCientTransfer;
@@ -74,7 +75,7 @@ public class RpcCientProxy implements InvocationHandler{
         System.out.println("protocol...");
         //将codec的信息放入protocol
         RpcRequestProtocol rpcRequestProtocol = RpcRequestProtocol.builder()
-            .header(RpcProtocolHeader.builder().version(0).messageId(1).messageSize(999).build())
+            .header(RpcProtocolHeader.builder().magic(1).status(RpcProtocolStatus.OK).messageType("byte").messageEncoding("utf-8").build())
             .bodys(bytes).build();
 
         /*---------------------------处理transfer层----------------------------- */
@@ -108,8 +109,8 @@ public class RpcCientProxy implements InvocationHandler{
         RpcProtocolHeader rpcProtocolHeader = rpcReponseProtocol.getHeader();
         byte[] rpcProtocolBoby=rpcReponseProtocol.getBodys();
         
-        
-        if(rpcProtocolHeader.getMessageId()==1)
+        //判断请求头
+        if(rpcProtocolHeader.getStatus()==RpcProtocolStatus.OK&&rpcProtocolHeader.getMagic()==1&&rpcProtocolHeader.getMessageType().equals("byte"))
         {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(rpcProtocolBoby);
             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
