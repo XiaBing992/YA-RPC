@@ -3,7 +3,6 @@ package com.wxb.rpc.transfer;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 
 import com.wxb.rpc.protocol.RpcReponseProtocol;

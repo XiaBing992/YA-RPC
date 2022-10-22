@@ -1,6 +1,5 @@
 package com.wxb.rpc.proxy;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;

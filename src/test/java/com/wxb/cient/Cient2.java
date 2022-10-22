@@ -2,9 +2,6 @@ package com.wxb.cient;
 
 import com.wxb.IDL.Proto;
 import com.wxb.rpc.proxy.RpcCientProxy;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
 
 public class Cient2 {
     //@Test

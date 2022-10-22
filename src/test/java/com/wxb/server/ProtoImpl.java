@@ -1,9 +1,6 @@
 package com.wxb.server;
 import com.wxb.IDL.Proto;
 
-import lombok.Builder;
-
-
 /**
  * @discription: 服务器的方法实现
  * @author: 王夏兵

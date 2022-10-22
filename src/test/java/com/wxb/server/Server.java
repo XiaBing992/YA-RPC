@@ -9,7 +9,6 @@ import com.wxb.rpc.proxy.RpcServerProxy;
 
 
 public class Server {
-    //@Test
     public static void main(String args[]) {
 
         //创建RPC代理
