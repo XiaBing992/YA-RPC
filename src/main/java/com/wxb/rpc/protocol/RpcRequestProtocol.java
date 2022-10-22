@@ -1,5 +1,7 @@
 package com.wxb.rpc.protocol;
 
+import java.io.Serializable;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,7 +13,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RpcRequestProtocol {
+public class RpcRequestProtocol implements Serializable{
     //协议头
     private RpcProtocolHeader header;
     //协议体

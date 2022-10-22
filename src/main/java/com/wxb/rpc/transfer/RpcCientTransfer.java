@@ -22,7 +22,7 @@ import lombok.Data;
 @Builder
 public class RpcCientTransfer {
     private String ip;
-    private String port;
+    private int port;
 
     /**
      * @description: 发送数据
@@ -30,7 +30,7 @@ public class RpcCientTransfer {
     public RpcReponseProtocol sendData(RpcRequestProtocol rpcRequestProtocol) throws IOException,ClassNotFoundException
     {
         //创建套接字
-        Socket socket = new Socket(ip,Integer.parseInt(port));
+        Socket socket = new Socket(ip,port);
         //创建流对象
         ObjectOutputStream socketOutStream=new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream socketInputStream=new ObjectInputStream(socket.getInputStream());

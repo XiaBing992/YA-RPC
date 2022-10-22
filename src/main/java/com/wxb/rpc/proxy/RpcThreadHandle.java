@@ -14,6 +14,7 @@ import com.wxb.rpc.codec.RpcRequestCodec;
 import com.wxb.rpc.codec.RpcResponseCodec;
 import com.wxb.rpc.protocol.RpcProtocolHeader;
 import com.wxb.rpc.protocol.RpcReponseProtocol;
+import com.wxb.rpc.protocol.RpcRequestProtocol;
 
 /**
  * @discription: 用于对服务器收到的数据进行处理
@@ -35,17 +36,17 @@ public class RpcThreadHandle implements Runnable{
     {
         try
         {
-            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-            ObjectOutputStream ObjectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream socketInputStream = new ObjectInputStream(socket.getInputStream());
+            ObjectOutputStream socketOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
             //处理收的数据
-            RpcReponseProtocol rpcReponseProtocol = (RpcReponseProtocol)objectInputStream.readObject();
-            RpcProtocolHeader rpcProtocolHeader = rpcReponseProtocol.getHeader();
+            RpcRequestProtocol rpcRequestProtocol = (RpcRequestProtocol)socketInputStream.readObject();
+            RpcProtocolHeader rpcProtocolHeader = rpcRequestProtocol.getHeader();
 
             if(rpcProtocolHeader.getMessageId()==1)
             {
                 //处理protocol层
-                byte[] rpcProtocolBoby = rpcReponseProtocol.getBodys();
+                byte[] rpcProtocolBoby = rpcRequestProtocol.getBodys();
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(rpcProtocolBoby);
                 ObjectInputStream objectInputStream2 = new ObjectInputStream(byteArrayInputStream);
                 //反解析到codec层
@@ -70,8 +71,11 @@ public class RpcThreadHandle implements Runnable{
                 //protocol层
                 RpcProtocolHeader reverseProtocolHeader = rpcProtocolHeader;
                 RpcReponseProtocol reversePReponseProtocol = RpcReponseProtocol.builder().header(reverseProtocolHeader).bodys(bytes).build();
-                objectOutputStream.writeObject(reversePReponseProtocol);
-                objectOutputStream.flush(); 
+
+                //传输返回值
+                System.out.println("send result:"+retObject);
+                socketOutputStream.writeObject(reversePReponseProtocol);
+                socketOutputStream.flush(); 
 
 
             }

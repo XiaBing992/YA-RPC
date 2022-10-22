@@ -1,3 +1,4 @@
+package com.wxb.server;
 import com.wxb.IDL.Proto;
 
 import lombok.Builder;
@@ -12,6 +13,7 @@ public class ProtoImpl implements Proto{
     @Override
     public float sum(float a,float b)
     {
+        //System.out.println(a+b);
         return a+b;
     }
 

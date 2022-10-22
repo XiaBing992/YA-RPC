@@ -47,9 +47,10 @@ public class RpcServerProxy {
     public void server(int port) throws IOException
     {
         ServerSocket serverSocket = new ServerSocket(port);
-        Socket dataSocket = serverSocket.accept();
-        if(dataSocket!=null)
+        Socket dataSocket;
+        while((dataSocket = serverSocket.accept())!=null)
         {
+            System.out.println("receive data from:"+dataSocket.getInetAddress());
             threadPool.execute(new RpcThreadHandle(dataSocket, registeredThreads));
         }
 

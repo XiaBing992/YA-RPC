@@ -1,7 +1,16 @@
+package com.wxb.server;
+
+
+import java.io.IOException;
+
+import org.junit.Test;
+
 import com.wxb.rpc.proxy.RpcServerProxy;
 
+
 public class Server {
-    public static void main(String[] args) {
+    //@Test
+    public static void main(String args[]) {
 
         //创建RPC代理
         RpcServerProxy rpcServerProxy = new RpcServerProxy(5, 20, 60);
@@ -9,7 +18,15 @@ public class Server {
         ProtoImpl protoImpl = new ProtoImpl();
         rpcServerProxy.Register(protoImpl);
 
-        rpcServerProxy.server(8888);
+        try
+        {
+            rpcServerProxy.server(8999);
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        
 
     }
     

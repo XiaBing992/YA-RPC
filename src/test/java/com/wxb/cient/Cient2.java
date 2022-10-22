@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class Cient {
+public class Cient2 {
     //@Test
     public static void main(String args[])
     {
@@ -15,10 +15,9 @@ public class Cient {
         Proto protoProxy = rpcCientProxy.getProxyService(Proto.class);
 
         //发送请求
-        float a=1.1f;
-        float b=1.2f;
+        String str="test";
 
-        float result = protoProxy.sum(a, b);
+        String result = protoProxy.uppercase(str);
         System.out.println(result);
 
     }
