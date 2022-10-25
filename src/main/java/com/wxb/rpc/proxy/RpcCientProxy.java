@@ -93,7 +93,7 @@ public class RpcCientProxy implements InvocationHandler{
             }
             catch(IOException e)
             {
-                System.out.printf("未收到服务器ACK，尝试第%d重传数据...\n",i+1);
+                System.out.printf("未收到服务器ACK, 尝试第%d重传数据...\n",i+1);
                 Thread.sleep(1000);
             }
         }
