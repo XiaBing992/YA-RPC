@@ -20,5 +20,4 @@ public class RpcProtocolHeader implements Serializable{
     private RpcProtocolStatus status;//标识状态
     private String messageType;//消息类型
     private String messageEncoding;//消息编码
-    
 }

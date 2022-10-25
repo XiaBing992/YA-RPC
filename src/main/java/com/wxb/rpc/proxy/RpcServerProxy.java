@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 public class RpcServerProxy {
     private ExecutorService threadPool;//线程池
-    private HashMap<String,Object> registeredThreads;//已经执行的线程
+    private HashMap<String,Object> registeredThreads;//本地函数注册
 
     public RpcServerProxy(int corePoolSize,int maximumPoolSize,int keepAliveTime)
     {

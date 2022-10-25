@@ -47,7 +47,6 @@ public class RpcThreadHandle implements Runnable{
             //判断请求头
             if(rpcProtocolHeader.getStatus()==RpcProtocolStatus.OK&&rpcProtocolHeader.getMagic()==1&&rpcProtocolHeader.getMessageType().equals("byte"))
             {
-                System.out.println("111");
                 //处理protocol层
                 byte[] rpcProtocolBoby = rpcRequestProtocol.getBodys();
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(rpcProtocolBoby);

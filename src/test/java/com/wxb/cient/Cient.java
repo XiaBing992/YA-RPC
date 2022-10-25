@@ -1,5 +1,7 @@
 package com.wxb.cient;
 
+import java.util.Scanner;
+
 import com.wxb.IDL.Proto;
 import com.wxb.rpc.proxy.RpcCientProxy;
 
@@ -10,12 +12,18 @@ public class Cient {
         RpcCientProxy rpcCientProxy = new RpcCientProxy("127.0.0.1",55555,15);
         Proto protoProxy = rpcCientProxy.getProxyService(Proto.class);
 
-        //发送请求
-        float a=1.1f;
-        float b=1.2f;
-
-        float result = protoProxy.sum(a, b);
-        System.out.println(result);
+        Scanner scanner = new Scanner(System.in);
+        float a,b,result;
+        System.out.println("please input a and b: ");
+        while(scanner.hasNext())
+        {
+            a=scanner.nextFloat();
+            b=scanner.nextFloat();
+            result = protoProxy.sum(a, b);
+            System.out.printf("the result is %.3f\n",result);
+            System.out.println("please input a and b: ");
+        }
+        scanner.close();
 
     }
     

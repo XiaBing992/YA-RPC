@@ -1,5 +1,7 @@
 package com.wxb.cient;
 
+import java.util.Scanner;
+
 import com.wxb.IDL.Proto;
 import com.wxb.rpc.proxy.RpcCientProxy;
 
@@ -12,10 +14,17 @@ public class Cient2 {
         Proto protoProxy = rpcCientProxy.getProxyService(Proto.class);
 
         //发送请求
-        String str="test";
-
-        String result = protoProxy.uppercase(str);
-        System.out.println(result);
+        Scanner scanner = new Scanner(System.in);
+        String str,result;
+        System.out.println("please input str: ");
+        while(scanner.hasNext())
+        {
+            str=scanner.nextLine();
+            result = protoProxy.uppercase(str);
+            System.out.printf("the result is %s\n",result);
+            System.out.println("please input str: ");
+        }
+        scanner.close();
 
     }
     

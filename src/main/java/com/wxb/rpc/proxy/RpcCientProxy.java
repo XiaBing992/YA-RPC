@@ -50,7 +50,7 @@ public class RpcCientProxy implements InvocationHandler{
     @Override
     public Object invoke(Object proxy,Method method,Object args[]) throws Throwable
     {
-        System.out.println("codec...");
+        //System.out.println("codec...");
         /*--------------------------处理codec层------------------------------*/
 
         //传入调用函数基本信息
@@ -64,7 +64,6 @@ public class RpcCientProxy implements InvocationHandler{
         //创建字节流数组
         ByteArrayOutputStream requestByteData=new ByteArrayOutputStream();
         ObjectOutputStream requestObjectData=new ObjectOutputStream(requestByteData);
-
         //请求对象转化为字节流
         requestObjectData.writeObject(rpcRequestCodec);
         byte[] bytes=requestByteData.toByteArray();
@@ -72,14 +71,14 @@ public class RpcCientProxy implements InvocationHandler{
 
         /*--------------------------处理protocol层----------------------------- */
 
-        System.out.println("protocol...");
+        //System.out.println("protocol...");
         //将codec的信息放入protocol
         RpcRequestProtocol rpcRequestProtocol = RpcRequestProtocol.builder()
             .header(RpcProtocolHeader.builder().magic(1).status(RpcProtocolStatus.OK).messageType("byte").messageEncoding("utf-8").build())
             .bodys(bytes).build();
 
         /*---------------------------处理transfer层----------------------------- */
-        System.out.println("transfer...");
+        //System.out.println("transfer...");
         //发送请求(at_least_once)
         RpcCientTransfer rpcCientTransfer = RpcCientTransfer.builder().ip(this.ip).port(this.port).build();
         RpcReponseProtocol rpcReponseProtocol=null;
