@@ -9,7 +9,7 @@ public class Cient {
     public static void main(String args[])
     {
         //获取rpc代理
-        RpcCientProxy rpcCientProxy = new RpcCientProxy("127.0.0.1",55555,15);
+        RpcCientProxy rpcCientProxy = new RpcCientProxy("127.0.0.1",55555,30);
         Proto protoProxy = rpcCientProxy.getProxyService(Proto.class);
 
         Scanner scanner = new Scanner(System.in);

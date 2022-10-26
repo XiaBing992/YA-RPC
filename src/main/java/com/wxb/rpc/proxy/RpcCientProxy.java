@@ -29,7 +29,7 @@ import lombok.Data;
 public class RpcCientProxy implements InvocationHandler{
     String ip;
     int port;
-    int MAX_RETRANSMISSION_TIMES=15;
+    int MAX_RETRANSMISSION_TIMES=30;
 
     /**
      * @description: 得到当前对象的代理服务
@@ -93,7 +93,7 @@ public class RpcCientProxy implements InvocationHandler{
             }
             catch(IOException e)
             {
-                System.out.printf("未收到服务器ACK, 尝试第%d重传数据...\n",i+1);
+                System.out.printf("未收到服务器数据, 尝试第%d重传数据...\n",i+1);
                 Thread.sleep(1000);
             }
         }
